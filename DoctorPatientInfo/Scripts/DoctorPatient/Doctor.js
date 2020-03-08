@@ -109,10 +109,6 @@ function Qualification(data) {
                 var objFocus = null;
                 var pro;
                 var QualData = current.SelectedData();
-
-
-
-
                 if (QualData == null && QualData == undefined) {
 
                     for (let i = 0; i < current.Qualifications().length; i++) {
@@ -127,7 +123,6 @@ function Qualification(data) {
                         QualName: current.SelectedQualificationID().QualName(),
                         Marks: current.Marks(),
                         Action: "A"
-
                     };
 
                     current.Qualifications.push(new Qualification(pro));
@@ -240,9 +235,9 @@ function Qualification(data) {
             });
         };
         current.GetDoctors();
-        current.DeleteDoctors = function (dddddddddddddddddddddddddddddd) {
+        current.DeleteDoctors = function (del) {
             if (confirm("Do you want to delete Doctors?")) {
-                let Key = dddddddddddddddddddddddddddddd.DoctorId();
+                let Key = del.DoctorId();
                 console.log(Key);
                 $.ajax({
                     dataType: "json",
@@ -260,9 +255,9 @@ function Qualification(data) {
                 });
             }
         };
-        current.DoctorDetails = function (dddddd) {
+        current.DoctorDetails = function (det) {
             current.DoctorUpdate(false);
-            current.SelectedDoctorId(dddddd.DoctorId);
+            current.SelectedDoctorId(det.DoctorId);
             if (current.SelectedDoctorId() == null) {
                
             }

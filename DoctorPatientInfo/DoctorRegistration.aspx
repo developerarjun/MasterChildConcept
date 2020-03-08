@@ -65,8 +65,8 @@
                                <label class="col-md-3 control-label text-top" for="textinput">
                                     Doctor ID: <span class="mandatory">*</span></label>
                                 <div class="col-md-5 ">
-                                    <input type="text" class="form-control" id="Text1"
-                                        data-bind="value: DoctorId"  readonly />
+                                    <input type="text" class="form-control" id="Text1"  data-bind="value: DoctorId"  readonly />
+                                       
                                 </div> 
                                </div>
                               
