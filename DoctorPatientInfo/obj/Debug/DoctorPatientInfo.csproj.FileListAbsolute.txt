@@ -281,3 +281,4 @@ S:\PCS working Practice\backup\DoctorPAtient3\DoctorPatientInfo\DoctorPatientInf
 S:\PCS working Practice\backup\DoctorPAtient3\DoctorPatientInfo\DoctorPatientInfo\obj\Debug\DoctorPatientInfo.csproj.CopyComplete
 S:\PCS working Practice\backup\DoctorPAtient3\DoctorPatientInfo\DoctorPatientInfo\obj\Debug\DoctorPatientInfo.dll
 S:\PCS working Practice\backup\DoctorPAtient3\DoctorPatientInfo\DoctorPatientInfo\obj\Debug\DoctorPatientInfo.pdb
+S:\PCS working Practice\backup\DoctorPAtient3\DoctorPatientInfo\DoctorPatientInfo\obj\Debug\DoctorPatientInfo.csprojAssemblyReference.cache

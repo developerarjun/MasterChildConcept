@@ -25,7 +25,15 @@ namespace DoctorPatientInfo.Handler
             return JsonUtility.Serialize(response);
 
         }
+        public object DeleteDoctor(int doctorId)
+        {
+            JsonResponse response = new JsonResponse();
+            BLLDoctor bllDoctor = new BLLDoctor();
+            response = bllDoctor.DeleteDoctors(doctorId);
+            return JsonUtility.Serialize(response);
 
+
+        }
         public object GetQualificationList(int QualId)
         {
             JsonResponse response = new JsonResponse();

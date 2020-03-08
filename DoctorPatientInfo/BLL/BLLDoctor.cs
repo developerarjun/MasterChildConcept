@@ -10,6 +10,26 @@ namespace DoctorPatientInfo.BLL
 {
     public class BLLDoctor
     {
+        public JsonResponse DeleteDoctors(int doctorId)
+        {
+            JsonResponse response = new JsonResponse();
+            try
+            {
+
+                DAODoctor objDll = new DAODoctor();
+                response.ResponseData = objDll.DeleteDoctors(doctorId);
+                response.IsSuccess = true;
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+
+            }
+            return response;
+
+        }
 
         public JsonResponse SaveDoctor(M_Doctor Doc)
         {

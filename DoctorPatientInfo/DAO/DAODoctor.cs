@@ -45,9 +45,12 @@ namespace DoctorPatientInfo.DAO
                         cmd.Parameters.Add("@Salary", SqlDbType.VarChar, 200).Value = objDoctor.Salary;
 
                         cmd.Parameters.Add("@id", SqlDbType.Int).Value = objDoctor.DoctorId;
-                        cmd.Parameters["@id"].Direction = ParameterDirection.Output;
+                        if (objDoctor.Action == "A")
+                        {
+                            cmd.Parameters["@id"].Direction = ParameterDirection.Output;
+                        }
                         cmd.ExecuteNonQuery();
-                        objDoctor.DoctorId = (int)cmd.Parameters["@id"].Value;
+                        objDoctor.DoctorId = objDoctor.Action == "A" ? (int)cmd.Parameters["@id"].Value: objDoctor.DoctorId;
                         
                       //  SqlParameter param = cmd.Parameters.AddWithValue("@Return", null);
                       
@@ -117,7 +120,36 @@ namespace DoctorPatientInfo.DAO
             return lstDoctor;
 
         }
+        public string DeleteDoctors(int doctorId)
+        {
+            string msg = "";
+            SqlConnection con = DAO2.getConnection();
 
+            using (con)
+            {
+                SqlTransaction tran;
+                tran = con.BeginTransaction();
+                try
+                {
+
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("spDeleteDoctors", con, tran);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DoctorID", doctorId);
+
+                    //  SqlParameter param = cmd.Parameters.AddWithValue("@Return", null);
+
+                    cmd.ExecuteNonQuery();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw new Exception("Error" + ex.Message);
+                }
+            }
+            return msg;
+        }
         public List<M_Doctor> GetDoctorDetails(string DoctorId)
         {
             DAOQualification dd = new DAOQualification();

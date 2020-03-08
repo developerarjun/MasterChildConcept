@@ -37,6 +37,7 @@
                         <!-- ko  if: Action()!='D' -->  
                             <tr data-bind="click: $root.DoctorDetails" style="cursor: pointer; 
                             text-align: center;">
+                                
                             <td>
                                 <span data-bind="text:DoctorId"></span>
                             </td>
@@ -46,9 +47,11 @@
                             </td>
                            
                               <td>
-                                  <button class="btn btn-success">Delete</button>
+                                  <span class="glyphicon glyphicon-remove" data-bind ="click: $root.DeleteDoctors"></span>
+                                  
                               </td>
-                        </tr>
+            </tr>
+                       
                         <!-- /ko -->
                     </tbody>
                 </table>
@@ -59,11 +62,11 @@
 
                             <div class="row">  
                                 <div class="form-group margin-bottom-0">
-                               <%-- <label class="col-md-3 control-label text-top" for="textinput">
+                               <label class="col-md-3 control-label text-top" for="textinput">
                                     Doctor ID: <span class="mandatory">*</span></label>
                                 <div class="col-md-5 ">
                                     <input type="text" class="form-control" id="Text1"
-                                        data-bind="value: DoctorId, enable: DoctorUpdate" />--%>
+                                        data-bind="value: DoctorId"  readonly />
                                 </div> 
                                </div>
                               
@@ -83,7 +86,7 @@
                                 <div class="form-group margin-bottom-0">
                                     <label class="col-md-3 control-label text-top" for="textinput"> DOB: </label>                                 
                                     <div class="col-md-5 ">
-                                    <input type="text" id="txtDOB"  class="form-control" name="Mobile" data-bind="value: DOB"/>
+                                    <input type="text" id="txtDOB" placeholder="yyyy.mm.dd" maxlength="10" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46' class="form-control" name="Mobile" data-bind="value: DOB"/>
                                       
                                     </div>
                                </div>
@@ -108,7 +111,7 @@
                               <div class="form-group margin-bottom-0">
                                 <label class="col-md-3 control-label text-top" for="textinput"> Salary</label>                                   
                                 <div class="col-md-5 ">
-                                 <input type="text" id="txtSalary"  class="form-control" name="Salary" data-bind="value: Salary"/>
+                                 <input type="text" id="txtSalary"  class="form-control" name="Salary" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46' data-bind="value: Salary"/>
                                 </div>
                               </div>
                             </div>  
@@ -148,12 +151,12 @@
                                  <label class="col-md-3 control-label text-top" for="textinput">
                                     Marks <span class="mandatory">*</span></label>
                                 <div class="col-md-5 ">
-                           <input type="text" id="TxtMarks"  class="form-control" name="Marks" data-bind="value: Marks"/>
+                           <input type="text" id="TxtMarks"  class="form-control" name="Marks" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46' data-bind="value: Marks"/>
                                 </div>
                                 </div>
                            </div>
          <div class="form-group col-md-1 margin-bottom-0" id="addID">
-            <button class="btn icon-add btn-primary margin-left-15" data-bind="click: AddDoctorQualification">Add </button>
+            <button class="btn icon-add btn-primary margin-left-15" data-bind="click: AddDoctorQualification,text: ButtonQual"> </button>
           </div>                           
  </div>
       
@@ -171,7 +174,7 @@
                  </tr>
                     <tbody data-bind="foreach:Qualifications " >
                         <!-- ko  if: Action()!='D' -->  
-                        <tr>
+                        <tr data-bind="visible: Action() !='D'">
                             <td>
                                 <span data-bind="text: ($index() + 1)"></span>
                             </td>
@@ -206,7 +209,7 @@
                <button class="btn btn-success" data-bind="click:SaveDoctor ">Submit</button>
               <%-- <button class="btn btn-info" data-bind="click:">Update</button>
                <button class="btn btn-danger">Delete</button>--%>
-                <button class="btn btn-warning">Cancel</button>
+                <button class="btn btn-warning" data-bind="click: resetDoctors">Cancel</button>
             </div>
           </div>
           

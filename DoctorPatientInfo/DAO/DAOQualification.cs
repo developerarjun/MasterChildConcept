@@ -23,17 +23,29 @@ namespace DoctorPatientInfo.DAO
                     if (doctor.Action == "A")
                     {
                         cmd = new SqlCommand("InsertQualification", con, tran);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@DoctorId", doctor.DoctorId);
+                        cmd.Parameters.AddWithValue("@QualId", doctor.QualId);
+                        cmd.Parameters.AddWithValue("@Marks", doctor.Marks);
+                    }
+                    else if (doctor.Action == "E")
+                    {
+                        cmd = new SqlCommand("UpdateQualification", con, tran);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@DoctorId", doctor.DoctorId);
+                        cmd.Parameters.AddWithValue("@QualId", doctor.QualId);
+                        cmd.Parameters.AddWithValue("@Marks", doctor.Marks);
                     }
                     else
                     {
-                        cmd = new SqlCommand("UpdateQualification", con, tran);
+                        cmd = new SqlCommand("DeleteQualification", con, tran);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@DoctorId", doctor.DoctorId);
+                        cmd.Parameters.AddWithValue("@QualId", doctor.QualId);
                     }
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@DoctorId", doctor.DoctorId);
-                    cmd.Parameters.AddWithValue("@QualId", doctor.QualId);
-                    cmd.Parameters.AddWithValue("@Marks", doctor.Marks);
-                    cmd.ExecuteNonQuery();                
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)

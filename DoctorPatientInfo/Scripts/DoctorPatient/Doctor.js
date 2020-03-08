@@ -38,6 +38,7 @@ function Qualification(data) {
 
     var DoctorViewModel = function () {
         var current = this;
+        current.ButtonQual = ko.observable("Add");
         current.DoctorId = ko.observable();
         current.Name = ko.observable();
         current.Gender = ko.observable(2);
@@ -96,63 +97,62 @@ function Qualification(data) {
         //current.    = function () {
         //    // alert();
         //}
-   
 
+        current.resetDoctors = function () {
+            current.ClearDoctorInfo();
+            current.Qualifications(null);
+        }
         //For Add data in table by clicking add button
         current.AddDoctorQualification = function () {
-            //if (current.ValidateQualification()) {
+            if (current.ValidateQualification()) {
                 var errMsg = "";
                 var objFocus = null;
-            var pro;
-            var QualData = current.SelectedData();
-
-            
+                var pro;
+                var QualData = current.SelectedData();
 
 
-            if (QualData == null && QualData == undefined) {
 
-                for (let i = 0; i < current.Qualifications().length; i++) {
-                    if (ko.toJS(current.Qualifications()[i].QualId) == ko.toJS(current.SelectedQualificationID).QualId) {
-                        alert('Data already exists !!!');
-                        return;
+
+                if (QualData == null && QualData == undefined) {
+
+                    for (let i = 0; i < current.Qualifications().length; i++) {
+                        if (ko.toJS(current.Qualifications()[i].QualId) == ko.toJS(current.SelectedQualificationID).QualId) {
+                            alert('Data already exists !!!');
+                            return;
+                        }
                     }
+                    console.log(current.DOB());
+                    pro = {
+                        QualId: current.SelectedQualificationID().QualId(),
+                        QualName: current.SelectedQualificationID().QualName(),
+                        Marks: current.Marks(),
+                        Action: "A"
+
+                    };
+
+                    current.Qualifications.push(new Qualification(pro));
+                    current.Marks(null);
+                    //   current.SelectedQulaificationChange.push(new Qualification(pro));
                 }
-                console.log(current.DOB());
-                pro = {
-                    QualId: current.SelectedQualificationID().QualId(),
-                    QualName: current.SelectedQualificationID().QualName(),
-                    Marks: current.Marks(),
-                    Action: "A"
-                    
-                   
+                else {
+                    QualData.DoctorId(current.DoctorId());
+                    QualData.QualId(current.SelectedQualificationID().QualId());
+                    QualData.QualName(current.SelectedQualificationID().QualName());
 
-                };
-                
-                current.Qualifications.push(new Qualification(pro));
-                current.Marks(null);
-                //   current.SelectedQulaificationChange.push(new Qualification(pro));
+                    //  QualData.Action("E")
+                    QualData.Action(current.Action());
+
+                    QualData.Marks(current.Marks());
+                    current.SelectedData(null);
+                    current.Marks(null);
+                }
+
+                current.SelectedQualificationID(null);
+                current.Marks(null)
+                current.ButtonQual("Add");
+                //} //current.ClearLocal();
             }
-            else {
-                QualData.DoctorId(current.DoctorId());
-                QualData.QualId(current.SelectedQualificationID().QualId());
-                QualData.QualName(current.SelectedQualificationID().QualName());
-               
-              //  QualData.Action("E")
-                QualData.Action(current.Action());
-
-                QualData.Marks(current.Marks());
-                current.SelectedData(null);
-                current.Marks(null);             
-            }
-
-            current.SelectedQualificationID(null);
-
-          
-            
-            current.Marks(null)
-            //} //current.ClearLocal();
         }
-
 
 
 
@@ -203,7 +203,7 @@ function Qualification(data) {
                     //alert(obj.Message);
                     if (obj.IsSuccess) {
                         alert("Doctor Data Save Sucessfully")
-                        
+                        current.Qualifications(null);
                         current.Doctors();
                     //    console.log();
                       //  current.GetQualificationLists();
@@ -240,7 +240,26 @@ function Qualification(data) {
             });
         };
         current.GetDoctors();
-
+        current.DeleteDoctors = function (dddddddddddddddddddddddddddddd) {
+            if (confirm("Do you want to delete Doctors?")) {
+                let Key = dddddddddddddddddddddddddddddd.DoctorId();
+                console.log(Key);
+                $.ajax({
+                    dataType: "json",
+                    cache: false,
+                    url: '../../Handler/HandlerOfDoctor.ashx',
+                    data: { 'method': 'DeleteDoctor', 'doctorId': Key },
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        current.GetDoctors();
+                        alert("Succesfully deleted");
+                    },
+                    error: function (err) {
+                        alert(err.status + " - " + err.statusText, "FAILURE");
+                    }
+                });
+            }
+        };
         current.DoctorDetails = function (dddddd) {
             current.DoctorUpdate(false);
             current.SelectedDoctorId(dddddd.DoctorId);
@@ -317,7 +336,7 @@ function Qualification(data) {
             }
         //For Edit Qualification list
         current.EditQualification = function (data) {
-            
+            current.ButtonQual("Update");
             console.log(data);         
             current.Marks(data.Marks());
            
@@ -339,13 +358,17 @@ function Qualification(data) {
 
         current.DeleteQualification = function (del) {
             if (confirm("Do you want to delete ")) {
-                current.Qualifications.remove(del);
+                if (del.Action() == "A") {
+                    current.Qualifications.remove(del);
+                } else {
+                    del.Action("D");
+                }
             }
         }
 
         //for Validation of marks
         current.ValidateQualification = function () {
-            var errMsg = " ";
+            var errMsg = "";
 
             if (Validate.empty(current.Marks())) {
                 errMsg += "Enter Marks !\n";
